@@ -26,9 +26,9 @@ class Jira {
 
 	async updateField(issueId, data) {
 		try {
-			const array = data.split(",");
+			const array = data.split(";");
 			const parsedData = array.reduce((newData, item) => {
-				const splitItem = item.split("::");
+				const splitItem = item.split("=");
 				if (splitItem.length === 2) {
 					newData[splitItem[0].trim()] = splitItem[1];
 				}

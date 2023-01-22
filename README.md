@@ -15,7 +15,7 @@ To update the fields of an issue you need to specify an issue key and field data
   uses: kherP/jira-custom-field@v1.0.13
   with:
   issue: INC-2
-  fields: customfield_10006::https://www.google.com,customfield_10007::44
+  fields: customfield_10006=https://www.google.com;customfield_10007=4
 ```
 
 ## Action Spec
