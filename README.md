@@ -12,10 +12,10 @@ To update the fields of an issue you need to specify an issue key and field data
 
 ```yaml
 - name: Comment on issue
-  uses: atlassian/gajira-comment@v3
+  uses: kherP/jira-custom-field@v1.0.1
   with:
   issue: INC-2
-  fields: {"customfield_10006":3,"customfield_10007":44}
+  fields: customfield_10006:3,customfield_10007:4
 ```
 
 ## Action Spec
@@ -25,7 +25,7 @@ To update the fields of an issue you need to specify an issue key and field data
 
 ### Inputs
 - `issue` - An issue key to add a comment for
-- `fields` - Comment
+- `fields` - fields to update
 
 ### Outputs
 - None
