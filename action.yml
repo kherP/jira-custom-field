@@ -1,14 +1,14 @@
-name: Jira Add Comment
-description: Add a comment to an issue
+name: Jira Update Field
+description: Update field(s) of a Jira issue
 branding:
   icon: 'align-left'
   color: 'blue'
 inputs:
   issue:
-    description: Key of the issue to be commented on
+    description: Key of the issue to be updated
     required: true
-  comment:
-    description: Comment
+  fields:
+    description: Fields to update
     required: true
 runs:
   using: 'node16'

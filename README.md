@@ -1,6 +1,6 @@
-# Jira Comment
+# Jira Update Custom Field
 
-Add a comment to an issue
+Update fields of an issue
 
 > ##### Only supports Jira Cloud. Does not support Jira Server (hosted)
 
@@ -8,25 +8,16 @@ Add a comment to an issue
 
 > ##### Note: this action requires [Jira Login Action](https://github.com/marketplace/actions/jira-login)
 
-To add comment to an issue you need to specify an issue key and a comment as action inputs, like:
+To update the fields of an issue you need to specify an issue key and field data as action inputs, like:
 
 ```yaml
 - name: Comment on issue
   uses: atlassian/gajira-comment@v3
   with:
   issue: INC-2
-  comment: ${{ github.event.pusher.name }} pushed to repository: ${{ github.event.repository.full_name }}
+  fields: {"customfield_10006":3,"customfield_10007":44}
 ```
 
-You can interpolate fields from [GitHub event which triggered the workflow](https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#github-context) into a comment body. For example, if you set your workflow to be triggered on the `push` event, you can specify the pusher name in comment body by including `${{ github.event.pusher }}` field from the [push](https://developer.github.com/v3/activity/events/types/#pushevent) event:
-
-    "${{ github.event.pusher.name }} pushed to repository: ${{ github.event.repository.full_name }}"
-
-Which will result in comment:
-
-    Codertocat pushed to repository: Codertocat/Hello-World
-
-----
 ## Action Spec
 
 ### Environment variables
@@ -34,7 +25,7 @@ Which will result in comment:
 
 ### Inputs
 - `issue` - An issue key to add a comment for
-- `comment` - Comment
+- `fields` - Comment
 
 ### Outputs
 - None
