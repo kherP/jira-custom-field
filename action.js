@@ -15,7 +15,7 @@ module.exports = class {
   async execute () {
     const issueId = this.argv.issue || this.config.issue || null
     const { fields } = this.argv
-
+    console.log(this.argv, this.config)
     console.log(`updating ${issueId} with \n${fields}`)
     await this.Jira.updateField(issueId, fields)
 
