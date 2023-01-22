@@ -19,11 +19,11 @@ module.exports = class {
   }
 
   async execute () {
-    const issueId = this.argv.issue || this.config.issue || null
+    const issueIds = this.argv.issue || this.config.issue || null
     const { fields } = this.argv
     console.log(this.argv, this.config)
-    console.log(`updating ${issueId} with \n${fields}`)
-    await this.Jira.updateField(issueId, fields)
+    console.log(`updating ${issueIds} with \n${fields}`)
+    await this.Jira.updateField(issueIds, fields)
 
     return {}
   }
@@ -37,7 +37,7 @@ module.exports = class {
 
 const { get } = __nccwpck_require__(250);
 
-const serviceName = "jira";
+const serviceName = 'jira';
 const { format } = __nccwpck_require__(7310);
 const client = __nccwpck_require__(6321)(serviceName);
 
@@ -50,22 +50,22 @@ class Jira {
 
 	async addComment(issueId, data) {
 		return this.fetch(
-			"addComment",
+			'addComment',
 			{
 				pathname: `/rest/api/2/issue/${issueId}/comment`,
 			},
 			{
-				method: "POST",
+				method: 'POST',
 				body: data,
 			}
 		);
 	}
 
-	async updateField(issueId, data) {
+	async updateField(issueIds, data) {
 		try {
-			const array = data.split(";");
+			const array = data.split(';');
 			const parsedData = array.reduce((newData, item) => {
-				const splitItem = item.split("=");
+				const splitItem = item.split('=');
 				if (splitItem.length === 2) {
 					newData[splitItem[0].trim()] = splitItem[1];
 				}
@@ -76,16 +76,21 @@ class Jira {
 					fields: parsedData,
 				})
 			);
-			return this.fetch(
-				"updateField",
-				{
-					pathname: `/rest/api/2/issue/${issueId}`,
-				},
-				{
-					method: "PUT",
-					body,
-				}
+			const promises = Promise.all(
+				issueIds.split(';').map((issueId) =>
+					this.fetch(
+						'updateField',
+						{
+							pathname: `/rest/api/2/issue/${issueId}`,
+						},
+						{
+							method: 'PUT',
+							body,
+						}
+					)
+				)
 			);
+			return promises;
 		} catch (err) {
 			throw err;
 		}
@@ -93,9 +98,9 @@ class Jira {
 
 	async createIssue(body) {
 		return this.fetch(
-			"createIssue",
-			{ pathname: "/rest/api/2/issue" },
-			{ method: "POST", body }
+			'createIssue',
+			{ pathname: '/rest/api/2/issue' },
+			{ method: 'POST', body }
 		);
 	}
 
@@ -103,15 +108,15 @@ class Jira {
 		const { fields = [], expand = [] } = query;
 
 		try {
-			return this.fetch("getIssue", {
+			return this.fetch('getIssue', {
 				pathname: `/rest/api/2/issue/${issueId}`,
 				query: {
-					fields: fields.join(","),
-					expand: expand.join(","),
+					fields: fields.join(','),
+					expand: expand.join(','),
 				},
 			});
 		} catch (error) {
-			if (get(error, "res.status") === 404) {
+			if (get(error, 'res.status') === 404) {
 				return;
 			}
 
@@ -121,24 +126,24 @@ class Jira {
 
 	async getIssueTransitions(issueId) {
 		return this.fetch(
-			"getIssueTransitions",
+			'getIssueTransitions',
 			{
 				pathname: `/rest/api/2/issue/${issueId}/transitions`,
 			},
 			{
-				method: "GET",
+				method: 'GET',
 			}
 		);
 	}
 
 	async transitionIssue(issueId, data) {
 		return this.fetch(
-			"transitionIssue",
+			'transitionIssue',
 			{
 				pathname: `/rest/api/3/issue/${issueId}/transitions`,
 			},
 			{
-				method: "POST",
+				method: 'POST',
 				body: data,
 			}
 		);
@@ -157,24 +162,24 @@ class Jira {
 		});
 
 		if (!method) {
-			method = "GET";
+			method = 'GET';
 		}
 
-		if (headers["Content-Type"] === undefined) {
-			headers["Content-Type"] = "application/json";
+		if (headers['Content-Type'] === undefined) {
+			headers['Content-Type'] = 'application/json';
 		}
 
 		if (headers.Authorization === undefined) {
 			headers.Authorization = `Basic ${Buffer.from(
 				`${this.email}:${this.token}`
-			).toString("base64")}`;
+			).toString('base64')}`;
 		}
 
 		// strong check for undefined
 		// cause body variable can be 'false' boolean value
 		if (
 			body &&
-			headers["Content-Type"] === "application/json" &&
+			headers['Content-Type'] === 'application/json' &&
 			!skipStringify
 		) {
 			body = JSON.stringify(body);
@@ -190,22 +195,22 @@ class Jira {
 		};
 
 		try {
-			console.log("request:", state.req.body);
+			console.log('request:', state.req.body);
 			await client(state, `${serviceName}:${apiMethodName}`);
 		} catch (error) {
 			const fields = {
 				originError: error,
-				source: "jira",
+				source: 'jira',
 			};
 
 			delete state.req.headers;
 			const formattedError = Object.assign(
-				new Error("Jira API error"),
+				new Error('Jira API error'),
 				state,
 				fields
 			);
 
-			console.log("#### error", JSON.stringify(formattedError));
+			console.log('#### error', JSON.stringify(formattedError));
 
 			throw formattedError;
 		}
