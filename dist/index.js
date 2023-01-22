@@ -85,7 +85,6 @@ class Jira {
         true
 			);
 		} catch (err) {
-      console.log('#### error', JSON.stringify(error))
 			throw err;
 		}
 	}
@@ -185,7 +184,7 @@ class Jira {
 		};
 
 		try {
-      console.log(state.req.body)
+      console.log('request:', state.req.body)
 			await client(state, `${serviceName}:${apiMethodName}`);
 		} catch (error) {
 			const fields = {
@@ -194,8 +193,11 @@ class Jira {
 			};
 
 			delete state.req.headers;
+      const formattedError = Object.assign(new Error("Jira API error"), state.res.body.errorMessages, fields);
 
-			throw Object.assign(new Error("Jira API error"), state.res.body.errorMessages, fields);
+      console.log('#### error', JSON.stringify(formattedError))
+
+			throw formattedError;
 		}
 
 		return state.res.body;
