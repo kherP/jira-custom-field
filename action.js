@@ -13,11 +13,11 @@ module.exports = class {
   }
 
   async execute () {
-    const issueId = this.argv.issue || this.config.issue || null
+    const issueIds = this.argv.issue || this.config.issue || null
     const { fields } = this.argv
     console.log(this.argv, this.config)
-    console.log(`updating ${issueId} with \n${fields}`)
-    await this.Jira.updateField(issueId, fields)
+    console.log(`updating ${issueIds} with \n${fields}`)
+    await this.Jira.updateField(issueIds, fields)
 
     return {}
   }
