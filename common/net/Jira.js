@@ -48,6 +48,7 @@ class Jira {
         true
 			);
 		} catch (err) {
+      console.log('#### error', JSON.stringify(error))
 			throw err;
 		}
 	}
@@ -154,7 +155,6 @@ class Jira {
 				originError: error,
 				source: "jira",
 			};
-      console.log(JSON.stringify(error))
 
 			delete state.req.headers;
 
