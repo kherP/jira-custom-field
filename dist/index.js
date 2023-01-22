@@ -63,14 +63,7 @@ class Jira {
 
 	async updateField(issueId, data) {
 		try {
-			const array = data.split(',');
-      const parsedData = array.reduce((newData, item) => {
-        const splitItem = item.split(':');
-        if (splitItem.length === 2) {
-          newData[splitItem[0].trim()] = splitItem[1];
-        }
-        return newData;
-      }, {});
+			const parsedData = JSON.parse(data);
 			return this.fetch(
 				"updateField",
 				{
@@ -32528,7 +32521,7 @@ async function exec () {
       return
     }
 
-    console.log('Failed to comment an issue.')
+    console.log('Failed to update an issue.')
     process.exit(78)
   } catch (error) {
     console.error(error)
@@ -32539,7 +32532,7 @@ async function exec () {
 function parseArgs () {
   return {
     issue: core.getInput('issue'),
-    comment: core.getInput('comment')
+    fields: core.getInput('fields')
   }
 }
 
