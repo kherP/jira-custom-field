@@ -156,7 +156,7 @@ class Jira {
 
 			delete state.req.headers;
 
-			throw Object.assign(new Error("Jira API error"), state, fields);
+			throw Object.assign(new Error("Jira API error"), state.res.body.errorMessages, fields);
 		}
 
 		return state.res.body;
