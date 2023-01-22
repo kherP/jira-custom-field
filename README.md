@@ -25,7 +25,7 @@ To update the fields of an issue you need to specify an issue key and field data
 
 ### Inputs
 - `issue` - An issue key to add a comment for
-- `fields` - fields to update
+- `fields` - fields to update (only support text or number field for now)
 
 ### Outputs
 - None
