@@ -184,13 +184,14 @@ class Jira {
 		};
 
 		try {
-      console.log(state)
+      console.log(state.req.body)
 			await client(state, `${serviceName}:${apiMethodName}`);
 		} catch (error) {
 			const fields = {
 				originError: error,
 				source: "jira",
 			};
+      console.log(JSON.stringify(error))
 
 			delete state.req.headers;
 
