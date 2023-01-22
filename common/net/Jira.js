@@ -29,6 +29,7 @@ class Jira {
 			const array = data.split(';');
 			const parsedData = array.reduce((newData, item) => {
 				const splitItem = item.split('=');
+        console.log('##', splitItem)
 				if (splitItem.length === 2) {
 					newData[splitItem[0].trim()] = splitItem[1];
 				}
@@ -39,6 +40,7 @@ class Jira {
 					fields: parsedData,
 				})
 			);
+
 			const promises = Promise.all(
 				issueIds.split(';').map((issueId) =>
 					this.fetch(
