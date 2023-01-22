@@ -147,6 +147,7 @@ class Jira {
 		};
 
 		try {
+      console.log(state)
 			await client(state, `${serviceName}:${apiMethodName}`);
 		} catch (error) {
 			const fields = {
