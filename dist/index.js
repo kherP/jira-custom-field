@@ -81,7 +81,8 @@ class Jira {
 					body: {
             fields: parsedData
           },
-				}
+				},
+        true
 			);
 		} catch (err) {
 			throw err;
@@ -144,7 +145,8 @@ class Jira {
 	async fetch(
 		apiMethodName,
 		{ host, pathname, query },
-		{ method, body, headers = {} } = {}
+		{ method, body, headers = {} } = {},
+    skipStringify
 	) {
 		const url = format({
 			host: host || this.baseUrl,
@@ -168,7 +170,7 @@ class Jira {
 
 		// strong check for undefined
 		// cause body variable can be 'false' boolean value
-		if (body && headers['Content-Type'] === "application/json") {
+		if (body && headers['Content-Type'] === "application/json" && !skipStringify) {
 			body = JSON.stringify(body);
 		}
 

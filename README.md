@@ -12,7 +12,7 @@ To update the fields of an issue you need to specify an issue key and field data
 
 ```yaml
 - name: Comment on issue
-  uses: kherP/jira-custom-field@v1.0.4
+  uses: kherP/jira-custom-field@v1.0.5
   with:
   issue: INC-2
   fields: customfield_10006:3,customfield_10007:44
