@@ -34,6 +34,9 @@ class Jira {
         }
         return newData;
       }, {});
+      const body = JSON.parse(JSON.stringify({
+        fields: parsedData
+      }));
 			return this.fetch(
 				"updateField",
 				{
@@ -41,9 +44,7 @@ class Jira {
 				},
 				{
 					method: "PUT",
-					body: {
-            fields: parsedData
-          },
+					body,
 				},
         true
 			);
